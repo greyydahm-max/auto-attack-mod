@@ -24,17 +24,14 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-	accessWidenerPath = file("src/main/resources/auto_attack.accesswidener")
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:26.1"
-	// No mappings - Minecraft 26.1 is fully unobfuscated, no remapping needed
 	implementation "net.fabricmc:fabric-loader:0.18.4"
-	implementation "net.fabricmc.fabric-api:fabric-api:0.144.0+26.1"
+	implementation "net.fabricmc.fabric-api:fabric-api:0.144.3+26.1"
 
-	// Cloth Config (optional - for config GUI)
-	compileOnly("me.shedaniel.cloth:cloth-config-fabric:17.0.0") {
+	compileOnly("me.shedaniel.cloth:cloth-config-fabric:26.1.154") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	compileOnly files("libs/modmenu-18.0.0-alpha.8.jar")
@@ -46,33 +43,5 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
-	}
-}
-
-def targetJavaVersion = 25
-tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = "UTF-8"
-	it.options.release = targetJavaVersion
-}
-
-java {
-	def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-	sourceCompatibility = javaVersion
-	targetCompatibility = javaVersion
-	withSourcesJar()
-}
-
-// Use jar instead of remapJar - no remapping needed for 26.1
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}" }
-	}
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
 	}
 }
