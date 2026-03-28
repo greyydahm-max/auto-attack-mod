@@ -10,7 +10,7 @@ public class AutoAttackVersionDifferenceManagerImpl extends AutoAttackVersionDif
 
     @Override
     public String getSuggestion(EditBox editBox) {
-        return editBox.suggestion;
+        return "";
     }
 
     @Override
